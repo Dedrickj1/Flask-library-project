@@ -51,7 +51,7 @@ class User(db.Model, UserMixin):
         return f'User {self.email} has been added to the database'
 
 class Books(db.Model):
-    __tablename__ = 'books'
+    __tablename__ = "books"
     id = db.Column(db.String, primary_key = True)
     author_name = db.Column(db.String(150), nullable = False)
     book_title = db.Column(db.String(200))
@@ -60,7 +60,7 @@ class Books(db.Model):
     paperback = db.Column(db.String(200))
     user_token = db.Column(db.String, db.ForeignKey('user.token'), nullable = False)
 
-    def __init__(self, author_name, book_title, book_length, hardcover, paperback, id = ''):
+    def __init__(self, author_name, book_title, book_length, hardcover, paperback, user_token, id = ''):
         self.id = self.set_id()
         self.author_name = author_name
         self.book_title = book_title
@@ -80,5 +80,5 @@ class BooksSchema(ma.Schema):
     class Meta:
         fields = ['id', 'author_name','book_title','book_length', 'hardcover', 'paperback', 'user_token']
 
-books_schema = BooksSchema()
+book_schema = BooksSchema()
 books_schema = BooksSchema(many=True)

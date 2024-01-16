@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from helpers import token_required
-from models import db, User, Books, books_schema
+from models import db, User, Books, books_schema, book_schema
 
 api = Blueprint('api',__name__, url_prefix='/api')
 
@@ -27,12 +27,12 @@ def create_books(current_user_token):
 
     print(f'BIG TESTER: {current_user_token.token}')
 
-    books = Books(author_name, book_title, book_length, book_hardcover, book_paperback, user_token = user_token)
+    books = Books(author_name, book_title, book_length, book_hardcover, book_paperback, user_token=user_token)
 
     db.session.add(books)
     db.session.commit()
 
-    response = books_schema.dump(books)
+    response = book_schema.dump(books)
     return jsonify(response)
 
 @api.route('/books', methods = ['GET'])
@@ -49,7 +49,7 @@ def get_single_books(current_user_token, id):
     fan = current_user_token.token
     if fan == current_user_token.token:
         books = Books.query.get(id)
-        response = books_schema.dump(books)
+        response = book_schema.dump(books)
         return jsonify(response)
     else:
         return jsonify({"message": "Valid Token Required"}),401
@@ -67,7 +67,7 @@ def update_books(current_user_token,id):
     contact.user_token = current_user_token.token
 
     db.session.commit()
-    response = books_schema.dump(books)
+    response = book_schema.dump(books)
     return jsonify(response)
 
 
