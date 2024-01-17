@@ -46,13 +46,9 @@ def get_books(current_user_token):
 @api.route('/books/<id>', methods = ['GET'])
 @token_required
 def get_single_books(current_user_token, id):
-    fan = current_user_token.token
-    if fan == current_user_token.token:
-        books = Books.query.get(id)
-        response = book_schema.dump(books)
-        return jsonify(response)
-    else:
-        return jsonify({"message": "Valid Token Required"}),401
+    books = Books.query.get(id)
+    response = book_schema.dump(books)
+    return jsonify(response)
 
 # UPDATE endpoint
 @api.route('/books/<id>', methods = ['POST','PUT'])
@@ -64,14 +60,14 @@ def update_books(current_user_token,id):
     books.book_length = request.json['book_length']
     books.book_hardcover = request.json['book_hardcover']
     books.book_paperback = request.json['book_paperback']
-    contact.user_token = current_user_token.token
+    books.user_token = current_user_token.token
 
     db.session.commit()
     response = book_schema.dump(books)
     return jsonify(response)
 
 
-# DELETE car ENDPOINT
+# DELETE Books ENDPOINT
 @api.route('/books/<id>', methods = ['DELETE'])
 @token_required
 def delete_books(current_user_token, id):
