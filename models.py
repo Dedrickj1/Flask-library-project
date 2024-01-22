@@ -76,9 +76,9 @@ class Books(db.Model):
     def set_id(self):
         return (secrets.token_urlsafe())
 
-class BooksSchema(ma.Schema):
+class BookSchema(ma.Schema):
     class Meta:
         fields = ['id', 'author_name','book_title','book_length', 'hardcover', 'paperback', 'user_token']
 
-book_schema = BooksSchema()
-books_schema = BooksSchema(many=True)
+book_schema = BookSchema()
+books_schema = BookSchema(many=True)

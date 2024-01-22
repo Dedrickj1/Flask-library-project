@@ -70,9 +70,9 @@ def update_books(current_user_token,id):
 # DELETE Books ENDPOINT
 @api.route('/books/<id>', methods = ['DELETE'])
 @token_required
-def delete_books(current_user_token, id):
+def delete_book(current_user_token, id):
     books = Books.query.get(id)
-    db.session.delete(books)
+    db.session.delete(book)
     db.session.commit()
-    response = books_schema.dump(books)
+    response = book_schema.dump(book)
     return jsonify(response)
